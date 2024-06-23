@@ -1,0 +1,51 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert
+    kompose.version: 1.16.0 (0c01309)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: odoo17
+  name: odoo17
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        io.kompose.service: odoo17
+    spec:
+      containers:
+      - args:
+        - --
+        env:
+        - name: HOST
+          value: db
+        - name: PASSWORD
+          value: odoo17@2023
+        - name: USER
+          value: odoo
+        image: odoo:17
+        name: odoo17
+        ports:
+        - containerPort: 8069
+        - containerPort: 8072
+        resources: {}
+        tty: true
+        volumeMounts:
+        - mountPath: /mnt/extra-addons
+          name: odoo17-claim0
+        - mountPath: /etc/odoo
+          name: odoo17-claim1
+      restartPolicy: Always
+      volumes:
+      - name: odoo17-claim0
+        persistentVolumeClaim:
+          claimName: odoo17-claim0
+      - name: odoo17-claim1
+        persistentVolumeClaim:
+          claimName: odoo17-claim1
+status: {}
