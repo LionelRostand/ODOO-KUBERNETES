@@ -1,0 +1,22 @@
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    kompose.cmd: kompose convert
+    kompose.version: 1.16.0 (0c01309)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: odoo17
+  name: odoo17
+spec:
+  ports:
+  - name: "10017"
+    port: 10017
+    targetPort: 8069
+  - name: "20017"
+    port: 20017
+    targetPort: 8072
+  selector:
+    io.kompose.service: odoo17
+status:
+  loadBalancer: {}
